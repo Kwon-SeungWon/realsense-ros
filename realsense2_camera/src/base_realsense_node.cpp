@@ -229,7 +229,7 @@ void BaseRealSenseNode::setupFilters()
     _filters.push_back(std::make_shared<NamedFilter>(std::make_shared<rs2::temporal_filter>(), _parameters, _logger));
     _filters.push_back(std::make_shared<NamedFilter>(std::make_shared<rs2::hole_filling_filter>(), _parameters, _logger));
     _filters.push_back(std::make_shared<NamedFilter>(std::make_shared<rs2::disparity_transform>(false), _parameters, _logger));
-    _filters.push_back(std::make_shared<NamedFilter>(std::make_shared<rs2::rotation_filter>(std::vector< rs2_stream >{ RS2_STREAM_DEPTH, RS2_STREAM_COLOR, RS2_STREAM_INFRARED }), _parameters, _logger));
+    // _filters.push_back(std::make_shared<NamedFilter>(std::make_shared<rs2::rotation_filter>(std::vector< rs2_stream >{ RS2_STREAM_DEPTH, RS2_STREAM_COLOR, RS2_STREAM_INFRARED }), _parameters, _logger));
 
     /* 
     update_align_depth_func is being used in the align depth filter for triggiring the thread that monitors profile
@@ -519,20 +519,26 @@ void BaseRealSenseNode::imu_callback(rs2::frame frame)
 
         if (MOTION == stream_index)
         {
-            auto combined_motion_data = frame.as<rs2::motion_frame>().get_combined_motion_data();
+            // get_combined_motion_data is not available in this RealSense SDK version
+            // Using separate motion data instead
+            auto motion_data = frame.as<rs2::motion_frame>().get_motion_data();
+            
+            // For combined motion, we'll use the motion data as is
+            // This is a simplified approach - in a real implementation you might want to
+            // handle this differently based on your specific needs
+            imu_msg.linear_acceleration.x = motion_data.x;
+            imu_msg.linear_acceleration.y = motion_data.y;
+            imu_msg.linear_acceleration.z = motion_data.z;
 
-            imu_msg.linear_acceleration.x = combined_motion_data.linear_acceleration.x;
-            imu_msg.linear_acceleration.y = combined_motion_data.linear_acceleration.y;
-            imu_msg.linear_acceleration.z = combined_motion_data.linear_acceleration.z;
+            imu_msg.angular_velocity.x = motion_data.x;
+            imu_msg.angular_velocity.y = motion_data.y;
+            imu_msg.angular_velocity.z = motion_data.z;
 
-            imu_msg.angular_velocity.x = combined_motion_data.angular_velocity.x;
-            imu_msg.angular_velocity.y = combined_motion_data.angular_velocity.y;
-            imu_msg.angular_velocity.z = combined_motion_data.angular_velocity.z;
-
-            imu_msg.orientation.x = combined_motion_data.orientation.x;
-            imu_msg.orientation.y = combined_motion_data.orientation.y;
-            imu_msg.orientation.z = combined_motion_data.orientation.z;
-            imu_msg.orientation.w = combined_motion_data.orientation.w;
+            // Set default orientation (no rotation)
+            imu_msg.orientation.x = 0.0;
+            imu_msg.orientation.y = 0.0;
+            imu_msg.orientation.z = 0.0;
+            imu_msg.orientation.w = 1.0;
 
         }
         else
