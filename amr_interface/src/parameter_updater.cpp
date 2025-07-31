@@ -12,7 +12,7 @@ ParameterUpdater::ParameterUpdater()
 
   if (!this->get_parameter("yaml_file", yaml_file_) || yaml_file_.empty()) {
     // 작업 디렉토리 기준 상대경로 (설치 없이 사용 가능)
-    yaml_file_ = "src/parameter_file/wheelchair.yaml";
+    yaml_file_ = "src/redbot_ros2_project/parameter_file/redbot.yaml";
   }
 
   if (loadYamlFile(yaml_file_)) {

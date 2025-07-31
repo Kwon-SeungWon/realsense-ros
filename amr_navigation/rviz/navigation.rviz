@@ -60,39 +60,9 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        bracket_lidar_camera:
-          Value: true
-        camera_accel_frame:
-          Value: true
-        camera_accel_optical_frame:
-          Value: true
         camera_bottom_screw_frame:
           Value: true
-        camera_color_frame:
-          Value: true
-        camera_color_optical_frame:
-          Value: true
-        camera_depth_frame:
-          Value: true
-        camera_depth_optical_frame:
-          Value: true
-        camera_gyro_frame:
-          Value: true
-        camera_gyro_optical_frame:
-          Value: true
-        camera_imu_optical_frame:
-          Value: true
-        camera_infra1_frame:
-          Value: true
-        camera_infra1_optical_frame:
-          Value: true
-        camera_infra2_frame:
-          Value: true
-        camera_infra2_optical_frame:
-          Value: true
         camera_link:
-          Value: true
-        caster_back_link:
           Value: true
         imu_link:
           Value: true
@@ -112,31 +82,9 @@ Visualization Manager:
           odom:
             base_footprint:
               base_link:
-                bracket_lidar_camera:
-                  {}
                 camera_bottom_screw_frame:
                   camera_link:
-                    camera_accel_frame:
-                      camera_accel_optical_frame:
-                        {}
-                    camera_color_frame:
-                      camera_color_optical_frame:
-                        {}
-                    camera_depth_frame:
-                      camera_depth_optical_frame:
-                        {}
-                    camera_gyro_frame:
-                      camera_gyro_optical_frame:
-                        camera_imu_optical_frame:
-                          {}
-                    camera_infra1_frame:
-                      camera_infra1_optical_frame:
-                        {}
-                    camera_infra2_frame:
-                      camera_infra2_optical_frame:
-                        {}
-                caster_back_link:
-                  {}
+                    {}
                 imu_link:
                   {}
                 lidar_scan:
@@ -657,16 +605,16 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 2.161374092102051
+      Distance: 42.697509765625
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 41.7193489074707
-        Y: -60.09541702270508
-        Z: 4.606825828552246
+        X: -4.429791450500488
+        Y: -3.0130057334899902
+        Z: 4.560931205749512
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
@@ -694,4 +642,4 @@ Window Geometry:
     collapsed: true
   Width: 2560
   X: 0
-  Y: 156
+  Y: 0

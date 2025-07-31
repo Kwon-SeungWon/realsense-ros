@@ -49,7 +49,7 @@ def generate_launch_description():
     )
     declare_params = DeclareLaunchArgument(
         'params_file',
-        default_value='src/parameter_file/redbot.yaml',
+        default_value='src/redbot_ros2_project/parameter_file/redbot.yaml',
         description='Relative path to the unified parameter YAML file'
     )
 

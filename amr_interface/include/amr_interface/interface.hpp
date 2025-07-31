@@ -23,6 +23,8 @@
 #include "san_msgs/msg/behavior.hpp"
 #include "san_msgs/msg/task.hpp"
 #include "san_msgs/msg/motor_status.hpp"
+#include "san_msgs/srv/pause_task.hpp"
+
 
 #include "std_msgs/msg/string.hpp"
 #include "std_msgs/msg/int16_multi_array.hpp"
@@ -182,6 +184,7 @@ public:
     virtual void onStop(class Interface* interface) = 0;
     virtual void onSLAM(class Interface* interface) = 0;
     virtual void cancelAllGoals(class Interface* interface) = 0;
+    virtual void resumeRobotstate(class Interface* interface) = 0;
 };
 
 /**
@@ -235,6 +238,7 @@ public:
     void cmdVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs);
     
     void manualVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs);
+    void joyVelCallback(const std::shared_ptr<const geometry_msgs::msg::Twist>& msgs);
 
     // Set the executor that implements state-specific behaviors
     void setExecutor(std::shared_ptr<IStateExecutor> executor);
@@ -259,6 +263,7 @@ public:
     std::string full_node_file_path_;
     std::shared_ptr<geometry_msgs::msg::Twist> cmd_vel;
     std::shared_ptr<geometry_msgs::msg::Twist> manual_vel;
+    std::shared_ptr<geometry_msgs::msg::Twist> joy_vel;
 
     // Service callback to process task command requests
     // void taskCommandCallback(
@@ -270,6 +275,11 @@ public:
         const std::shared_ptr<san_msgs::srv::BuildMap::Request> request,
         std::shared_ptr<san_msgs::srv::BuildMap::Response> response);
     
+    // Pause Task
+    void pauseTaskCallback(
+        const std::shared_ptr<san_msgs::srv::PauseTask::Request> request,
+        std::shared_ptr<san_msgs::srv::PauseTask::Response> response);
+
     // Change the Map name (추후 커스텀 서비스 변경)
     // void mapNameChangeCallback(const std::shared_ptr<san_msgs::srv::MapName::Request> request,
     //     std::shared_ptr<san_msgs::srv::MapName::Response> response);
@@ -392,6 +402,8 @@ public:
 
     double waypoint_reach_threshold_;
     double waypoint_missed_distance_;
+    // STOP -> Resume Flag
+    bool resume_requested_{false};
 
 protected:
     // ROS2 subscriptions, publishers, and service servers
@@ -417,7 +429,7 @@ protected:
     rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
     rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr manual_vel_sub_;
-
+    rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr joy_vel_sub_;
 
     rclcpp::Subscription<std_msgs::msg::String>::SharedPtr command_sub_;
 
@@ -447,6 +459,8 @@ protected:
     rclcpp::Publisher<std_msgs::msg::String>::SharedPtr error_code_desc_pub_;
 
     rclcpp::Service<san_msgs::srv::BuildMap>::SharedPtr build_map_service_; // Build Map
+
+    rclcpp::Service<san_msgs::srv::PauseTask>::SharedPtr pause_task_service_; // Pause Task
 
     rclcpp::Client<san_msgs::srv::GetWaypoints>::SharedPtr get_waypoints_client_;
 
@@ -483,7 +497,7 @@ private:
     void goalPoseCallback(const geometry_msgs::msg::PoseStamped::SharedPtr msg);
     void waypointListCallback(const geometry_msgs::msg::PoseArray::SharedPtr msg);
     void changeMapCallback(const std_msgs::msg::Bool::SharedPtr msg);
-    
+
     void batteryStatusCallback(const san_msgs::msg::BatteryStatus::SharedPtr msg);
     void bumperStatusCallback(const std_msgs::msg::UInt8::SharedPtr msg);
     void ultrasonicStatusCallback(const std_msgs::msg::Int16MultiArray::SharedPtr msg);

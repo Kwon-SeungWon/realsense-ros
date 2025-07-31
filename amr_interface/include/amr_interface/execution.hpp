@@ -100,6 +100,8 @@ public:
     // Cancel all active navigation/docking action goals (for use by Interface on cancel)
     void cancelAllGoals(Interface* interface) override;
 
+    // Resume RobotState
+    void resumeRobotstate(Interface* interface) override;
 private:
     // Initialization helper functions
     bool checkOdometry(Interface* interface);
@@ -118,7 +120,7 @@ private:
     void handleBuildMap(Interface* interface);
     void handleCancelSLAM(Interface* interface);
     void handleSaveMap(Interface* interface);
-    void resumeRobotstate(Interface* interface);
+    // void resumeRobotstate(Interface* interface);
 
     /**
      * @brief Helper function to send a navigation goal to the Nav2 action server.
@@ -198,6 +200,7 @@ private:
     // rclcpp::Client<san_msgs::srv::UpdateParams>::SharedPtr update_client_;                ///< Client for the update_params service.
 
     rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr obstacle_detected_publisher_;
+    rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr slam_pose_publisher_;
 
 
     // Parameters

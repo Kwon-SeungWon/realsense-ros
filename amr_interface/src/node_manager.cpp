@@ -81,7 +81,7 @@ void NodeManager::runNavigation(std::string map_file)
     #if SIMULATION
     std::string command = "ros2 launch amr_navigation navigation_robot_simulator.launch.py map:=" + map_file + ".yaml use_sim_time:=True";
     #else 
-    std::string command = "ros2 launch amr_navigation navigation_wheelchair.launch.py map:=" + map_file + ".yaml";
+    std::string command = "ros2 launch amr_navigation navigation_redbot.launch.py map:=" + map_file + ".yaml";
     #endif
     // 새로운 프로세스 그룹으로 launch 명령어 실행 후 PID 저장
     nav_pid_ = launchProcess(command);
