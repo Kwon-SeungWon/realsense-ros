@@ -615,7 +615,11 @@ void BaseRealSenseNode::CalibConfigReadService(const realsense2_camera_msgs::srv
     try
     {
         (void)req; // silence unused parameter warning
-        res->calib_config = _dev.as<rs2::auto_calibrated_device>().get_calibration_config();
+        // get_calibration_config is not available in this RealSense SDK version
+        // Using get_calibration_table instead
+        auto calib_table = _dev.as<rs2::auto_calibrated_device>().get_calibration_table();
+        // Convert vector<unsigned char> to string
+        res->calib_config = std::string(calib_table.begin(), calib_table.end());
         res->success = true;
     }
     catch (const std::exception &e)
@@ -629,7 +633,11 @@ void BaseRealSenseNode::CalibConfigWriteService(const realsense2_camera_msgs::sr
     realsense2_camera_msgs::srv::CalibConfigWrite::Response::SharedPtr res){
     try
     {
-        _dev.as<rs2::auto_calibrated_device>().set_calibration_config(req->calib_config);
+        // set_calibration_config is not available in this RealSense SDK version
+        // Using set_calibration_table instead
+        // Convert string to vector<unsigned char>
+        rs2::calibration_table calib_table(req->calib_config.begin(), req->calib_config.end());
+        _dev.as<rs2::auto_calibrated_device>().set_calibration_table(calib_table);
         res->success = true;
     }
     catch (const std::exception &e)
