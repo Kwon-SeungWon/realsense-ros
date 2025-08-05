@@ -1,7 +1,0 @@
-string camera_mode
-float32 marker_gap
-int32 marker_id
----
-bool success
----
-int8 step

@@ -1,6 +1,0 @@
-serial_node:
-  ros__parameters:
-    port_name: /dev/ttySERIAL
-    baud_rate: 19200
-    linear_speed: 0.5
-    angular_speed: 0.5

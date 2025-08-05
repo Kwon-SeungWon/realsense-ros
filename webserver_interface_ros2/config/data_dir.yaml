@@ -1,4 +1,0 @@
-map_data : "/home/caselab/catkin_ws/src/redbot_ros2_project/data/map_data/maps"
-node_data : "/home/caselab/catkin_ws/src/redbot_ros2_project/data/map_data/nodes"
-camera_data : "/home/caselab/catkin_ws/src/redbot_ros2_project/data/camera_data"
-buildmap_data : "/home/caselab/catkin_ws/src/redbot_ros2_project/data/buildmap_data"

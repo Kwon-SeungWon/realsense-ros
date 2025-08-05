@@ -1,6 +1,0 @@
-# Request
-bool pause_task
-
----
-# Response
-bool success    

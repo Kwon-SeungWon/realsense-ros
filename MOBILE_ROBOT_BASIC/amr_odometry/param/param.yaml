@@ -1,5 +1,0 @@
-amr_odometry:
-  ros__parameters:
-    enc_vel_gain: 0.95
-    enc_wvel_gain: 0.66
-    read_rate: 10

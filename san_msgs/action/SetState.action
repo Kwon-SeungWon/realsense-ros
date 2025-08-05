@@ -1,6 +1,0 @@
-uint8 state
-uint8 status
----
-bool success
-string message
----

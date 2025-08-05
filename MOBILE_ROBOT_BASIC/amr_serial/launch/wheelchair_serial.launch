@@ -1,5 +1,0 @@
-<launch>
-    <node pkg="amr_serial" type="serial_all.py" name="serial_node" output="screen">
-        <rosparam file="$(find amr_serial)/param/serial.yaml" />
-    </node>
-</launch>

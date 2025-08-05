@@ -1,6 +1,0 @@
-pose : "amcl_pose"
-initial_pose : "initialpose"
-manual_vel : "manual_vel"
-cmd_vel : "cmd_vel"
-camera_front : "zed_multi/zx_f/rgb/image_rect_color/compressed"
-battery_status : "battery_status"

@@ -1,9 +1,0 @@
-# UpdateParams.srv
-
-# Request
-string mode
-
----
-# Response
-bool success
-string message
